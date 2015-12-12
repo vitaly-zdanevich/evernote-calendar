@@ -13,6 +13,17 @@ var calendarButton = wrapper.firstChild;
 function addButton() {
     var referenceNode = document.getElementsByClassName('GNTMVRYJXB')[6];
     referenceNode.parentNode.insertBefore(calendarButton, referenceNode.nextSibling)
+} setTimeout(function(){addButton()}, 10000);
+
+document.getElementsByClassName('GNTMVRYGYB')[7] // inserted button
+document.getElementsByClassName('GNTMVRYGYB')[7].id = 'button-calendar'
+
+document.getElementById('button-calendar').onclick=function(){toggleCalendar()};
+function toggleCalendar() {
+    
 }
 
-setTimeout(function(){addButton()}, 10000);
+// show calendar onclick
+// var calendar = $( ".gwt-DatePicker" ).clone()
+// set position: absolute
+// .datePickerDay: increase width & height to fullscreen
