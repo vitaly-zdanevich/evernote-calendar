@@ -4,6 +4,7 @@
 // @match       https://sandbox.evernote.com/Home.action*
 // @version     1
 // @grant       none
+// @require     evernote-sdk-minified.js
 // ==/UserScript==
 
 function addButton() {
@@ -24,6 +25,19 @@ function showCalendar() {
   $('#calendar').css({position:'absolute', top:0, background:'#000', 'z-index':999, height:'100%'});
   $('#calendar').find('.datePickerDays').css({width:'100%', height:'100%'});
   $('#calendar').find('colgroup').css({height:'100%'});
-}
+  
+  var noteStoreURL = 'https://sandbox.evernote.com/shard/s1/notestore';
+  var authenticationToken = 'S=s1:U=91cf0:E=158eaae2c6d:C=15192fd0068:P=1cd:A=en-devtoken:V=2:H=8351a9a250308abcb5812b3a08e939e8';
+  var noteStoreTransport = new Thrift.BinaryHttpTransport(noteStoreURL);
+  var noteStoreProtocol = new Thrift.BinaryProtocol(noteStoreTransport);
+  var noteStore = new NoteStoreClient(noteStoreProtocol);
 
-// .datePickerDay: increase width & height to fullscreen
+  noteStore.findNotes(authenticationToken, new NoteFilter({}), 0, 100, function (noteList) {
+    for (var i = 0; i < noteList.notes.length; i++) {
+      var date = new Date(noteList.notes[i].attributes.reminderTime).getDate();
+      console.log(date);
+    };
+  }, function onerror(error) {
+       console.log(error);
+  });
+}
