@@ -34,8 +34,13 @@ function showCalendar() {
 
   noteStore.findNotes(authenticationToken, new NoteFilter({}), 0, 100, function (noteList) {
     for (var i = 0; i < noteList.notes.length; i++) {
-      var date = new Date(noteList.notes[i].attributes.reminderTime).getDate();
-      console.log(date);
+      var dateReminder = new Date(noteList.notes[i].attributes.reminderTime).getDate();
+      $('#calendar').find('.datePickerDay').each(function() {
+          var dayCalendar = $(this).text();
+          if (dayCalendar == dateReminder) {
+            $(this).parent().css({background:'green'});
+          }
+      });
     };
   }, function onerror(error) {
        console.log(error);
