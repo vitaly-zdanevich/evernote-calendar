@@ -18,7 +18,7 @@ setTimeout(function(){
 function addButton() {
     // replace user's avatar with calendar button
     var date = new Date().getDate();
-    $('.GNTMVRYDXB')[0].innerHTML = '<div id="calendar-button">' + date + '</div>';
+    $('.GOSDSN-CDXB')[0].innerHTML = '<div id="calendar-button">' + date + '</div>'; // TODO this style not exist yeat?
     $('#calendar-button').click(function() {
       showCalendar();
     })
