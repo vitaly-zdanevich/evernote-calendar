@@ -7,25 +7,31 @@
 // @require     evernote-sdk-minified.js
 // ==/UserScript==
 
+setTimeout(function(){
+  addButton();
+  initCalendar();
+}, 15000);
+
 function addButton() {
     // replace user's avatar with calendar button
     var date = new Date().getDate();
     $('.GNTMVRYDXB')[0].innerHTML = '<div id="calendar-button">' + date + '</div>';
+    $('#calendar-button').click(function() {
+      showCalendar();
+    })
 }
-setTimeout(function(){
-  addButton();
-  $('#calendar-button').click(function() {
-    showCalendar();
-  });
+
+function initCalendar() {
   $('.gwt-DatePicker').clone().appendTo('html');
   $('.gwt-DatePicker')[1].id = 'calendar';
-}, 10000);
-
-function showCalendar() {
-  $('#calendar').css({position:'absolute', top:0, background:'#000', 'z-index':999, height:'100%'});
+  $('#calendar').css({position:'absolute', top:0, background:'#000', 'z-index':999, height:'100%', display:'none'});
   $('#calendar').find('.datePickerDays').css({width:'100%', height:'100%'});
   $('#calendar').find('colgroup').css({height:'100%'});
-  
+}
+
+function showCalendar() {
+  $('#calendar').toggle();
+
   var noteStoreURL = 'https://sandbox.evernote.com/shard/s1/notestore';
   var authenticationToken = 'S=s1:U=91cf0:E=158eaae2c6d:C=15192fd0068:P=1cd:A=en-devtoken:V=2:H=8351a9a250308abcb5812b3a08e939e8';
   var noteStoreTransport = new Thrift.BinaryHttpTransport(noteStoreURL);
@@ -38,7 +44,13 @@ function showCalendar() {
       $('#calendar').find('.datePickerDay').each(function() {
           var dayCalendar = $(this).text();
           if (dayCalendar == dateReminder) {
-            $(this).parent().css({background:'green'});
+            $(this).parent().css({background:'darkgreen'});
+            var guid = noteList.notes[i].guid;
+            $(this).parent().html('<a href="#n='+guid+'&ses=4&sh=2&sds=5" class="calendar-event">'+noteList.notes[i].title+'</a>');
+            $('.calendar-event').click(function(){
+              $('#calendar').toggle();
+            })
+            console.log(noteList.notes[i]);
           }
       });
     };
