@@ -10,6 +10,9 @@
 setTimeout(function(){
   addButton();
   initCalendar();
+  $(document).keydown(function(e){
+    if (e.key == 'Escape') showCalendar();
+  })
 }, 15000);
 
 function addButton() {
@@ -24,7 +27,7 @@ function addButton() {
 function initCalendar() {
   $('.gwt-DatePicker').clone().appendTo('html');
   $('.gwt-DatePicker')[1].id = 'calendar';
-  $('#calendar').css({position:'absolute', top:0, background:'#000', 'z-index':999, height:'100%', display:'none'});
+  $('#calendar').css({position:'absolute', top:'-24px', background:'#000', 'z-index':999, height:'100%', display:'none'});
   $('#calendar').find('.datePickerDays').css({width:'100%', height:'100%'});
   $('#calendar').find('colgroup').css({height:'100%'});
 }
